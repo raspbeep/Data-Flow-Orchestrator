@@ -1,0 +1,12 @@
+name: duplicate_steps
+steps:
+  - id: gen
+    tool: rtl_generator
+    params:
+      arch: rv64
+      output_dir: ./out/a
+  - id: gen
+    tool: rtl_generator
+    params:
+      arch: rv32
+      output_dir: ./out/b

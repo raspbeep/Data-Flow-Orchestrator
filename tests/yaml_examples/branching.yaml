@@ -1,0 +1,32 @@
+name: branching_flow
+version: "1.0.0"
+environment:
+  OUT_ROOT: ./out
+steps:
+  - id: gen_a
+    tool: rtl_generator
+    params:
+      arch: rv64
+      output_dir: ${env.OUT_ROOT}/a
+      top_module: cpu_a
+  - id: gen_b
+    tool: rtl_generator
+    params:
+      arch: rv32
+      output_dir: ${env.OUT_ROOT}/b
+      top_module: cpu_b
+  - id: sim_a
+    tool: sim_runner
+    depends_on: [gen_a]
+    params:
+      timeout: 10
+  - id: sim_b
+    tool: sim_runner
+    depends_on: [gen_b]
+    params:
+      timeout: 10
+  - id: final_sim
+    tool: sim_runner
+    depends_on: [sim_a, sim_b]
+    params:
+      timeout: 10

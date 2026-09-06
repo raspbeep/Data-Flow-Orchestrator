@@ -1,0 +1,7 @@
+name: bad_dependency
+steps:
+  - id: sim
+    tool: sim_runner
+    depends_on: [rtl_gen]
+    params:
+      timeout: 10

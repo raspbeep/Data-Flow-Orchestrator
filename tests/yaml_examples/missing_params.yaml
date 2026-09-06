@@ -1,0 +1,6 @@
+name: missing_params
+steps:
+  - id: rtl_gen
+    tool: rtl_generator
+    params:
+      arch: rv64

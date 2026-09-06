@@ -1,0 +1,5 @@
+name: missing_plugin
+steps:
+  - id: synthesis
+    tool: magical_synthesis_tool
+    params: {}

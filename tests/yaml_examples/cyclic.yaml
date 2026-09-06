@@ -1,0 +1,17 @@
+name: cyclic_flow
+steps:
+  - id: a
+    tool: sim_runner
+    depends_on: [c]
+    params:
+      timeout: 10
+  - id: b
+    tool: sim_runner
+    depends_on: [a]
+    params:
+      timeout: 10
+  - id: c
+    tool: sim_runner
+    depends_on: [b]
+    params:
+      timeout: 10

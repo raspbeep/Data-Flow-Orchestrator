@@ -1,0 +1,18 @@
+name: basic_rtl_flow
+version: "1.0.0"
+environment:
+  OUT_ROOT: ./out
+steps:
+  - id: rtl_gen
+    tool: rtl_generator
+    params:
+      arch: rv64
+      output_dir: ${env.OUT_ROOT}/rtl
+      top_module: cpu
+    artifacts:
+      - ${env.OUT_ROOT}/rtl/*.v
+  - id: sim
+    tool: sim_runner
+    depends_on: [rtl_gen]
+    params:
+      timeout: 10

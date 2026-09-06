@@ -1,0 +1,17 @@
+name: interpolation_flow
+version: "1.0.0"
+environment:
+  BUILD_ROOT: ./build
+steps:
+  - id: rtl_gen
+    tool: rtl_generator
+    params:
+      arch: rv64
+      output_dir: ${env.BUILD_ROOT}/rtl
+      top_module: cpu
+  - id: sim
+    tool: sim_runner
+    depends_on: [rtl_gen]
+    params:
+      timeout: 5
+      rtl_location: ${rtl_gen.params.output_dir}/${rtl_gen.params.top_module}.v

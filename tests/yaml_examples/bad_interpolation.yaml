@@ -1,0 +1,9 @@
+name: bad_interpolation
+environment:
+  ROOT: ./out
+steps:
+  - id: rtl_gen
+    tool: rtl_generator
+    params:
+      arch: rv64
+      output_dir: ${env.DOES_NOT_EXIST}/rtl

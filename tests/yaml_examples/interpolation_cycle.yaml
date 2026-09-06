@@ -1,0 +1,17 @@
+name: interpolation_cycle
+steps:
+  - id: a
+    tool: sim_runner
+    params:
+      timeout: 10
+      value: ${b.params.value}
+  - id: b
+    tool: sim_runner
+    params:
+      timeout: 10
+      value: ${c.params.value}
+  - id: c
+    tool: sim_runner
+    params:
+      timeout: 10
+      value: ${a.params.value}

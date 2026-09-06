@@ -1,0 +1,102 @@
+[build-system]
+requires = ["setuptools>=84.0.0", "setuptools-scm>=10.2.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dfo"
+version = "0.1"
+description = "Design Flow Orchestrator for RTL workflows"
+readme = "readme.md"
+authors = [
+	{name = "Pavel Kratochvil", email = "kratochvilpavel.jr@gmail.com"}
+]
+dependencies = [
+    "pydantic>=2.3.15",
+    "typer>=0.27.2",
+    "structlog>=24.0",
+    "rich>=13.0",
+    "pyyaml>=6.0",
+    "psutil>=5.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-cov>=5.0",
+    "pytest-mock>=3.14",
+    "freezegun>=1.0",
+    "mypy>=1.10",
+    "ruff>=0.5.0",
+    "black>=24.0",
+    "pre-commit>=3.7",
+]
+
+[project.scripts]
+dfo = "dfo.cli.main:app"
+
+[project.entry-points."dfo.plugins"]
+rtl_generator = "dfo.plugins.rtl_generator:RTLGeneratorPlugin"
+sim_runner = "dfo.plugins.sim_runner:SimRunnerPlugin"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools_scm]
+
+# --- Ruff (replaces flake8, isort, pydocstyle) ---
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP", "B", "C4", "SIM"]
+ignore = ["E501"]  # Line length handled by black
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+# --- Black ---
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+# --- MyPy (STRICT) ---
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+ignore_missing_imports = true  # For third-party libs without stubs
+
+# --- Pytest ---
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--cov=src/dfo --cov-report=term-missing --cov-report=html --cov-fail-under=80"
+
+# --- Coverage ---
+[tool.coverage.run]
+source = ["src/dfo"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+]
